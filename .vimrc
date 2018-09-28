@@ -1,119 +1,145 @@
-" Load Pathogen
-execute pathogen#infect()
+if &compatible
+    set nocompatible               " Be iMproved
+endif
 
-" Use Vim settings, rather then Vi settings (much better!).
-set nocompatible
+" Required:
+set runtimepath+=/Users/afonsodelgado/.cache/dein/repos/github.com/Shougo/dein.vim
 
-" Default configuration in case there's no other definition in ftplugin
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set smarttab
-set autoindent
-set smartindent
+" Required:
+if dein#load_state('/Users/afonsodelgado/.cache/dein')
+    call dein#begin('/Users/afonsodelgado/.cache/dein')
+
+    " Let dein manage dein
+    " Required:
+    call dein#add('/Users/afonsodelgado/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+    " Add or remove your plugins here:
+    call dein#add('Shougo/deoplete.nvim')
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('scrooloose/nerdcommenter')
+    call dein#add('airblade/vim-gitgutter')
+    call dein#add('bling/vim-airline')
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('easymotion/vim-easymotion')
+    call dein#add('mxw/vim-jsx')
+    call dein#add('ayu-theme/ayu-vim')
+    call dein#add('w0rp/ale')
+    call dein#add('ap/vim-css-color')
+    call dein#add('carlitux/deoplete-ternjs')
+    call dein#add('townk/vim-autoclose')
+    call dein#add('alvan/vim-closetag')
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('jparise/vim-graphql')
+    call dein#add('styled-components/vim-styled-components')
+    call dein#add('junegunn/fzf.vim')
+    call dein#add('neovimhaskell/haskell-vim.git')
+    call dein#add('arcticicestudio/nord-vim')
+    call dein#add('kristiandupont/shades-of-teal')
+    call dein#add('valloric/matchtagalways')
+    call dein#add('terryma/vim-multiple-cursors')
+    call dein#add('sheerun/vim-polyglot')
+    call dein#add('trevordmiller/nova-vim')
+    call dein#add('yuttie/comfortable-motion.vim')
+    call dein#add('tpope/vim-surround')
+
+    " Required:
+    call dein#end()
+    call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+
+let mapleader=","
+inoremap jk <esc>
+
+" Fix wrong autoindent on JSX / HTML tags
+filetype indent off
+
+" Enable syntax and real colors
+set termguicolors 
 syntax enable
 
+" Enable mouse (scroll) and cursorline highlight
+set mouse=a
+set clipboard=unnamed
+set cursorline
+" set number
+
+" Indentation stuff
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set autoindent
+
+set smarttab
 set incsearch
 set hlsearch
 
 set splitbelow
 set splitright
 
-"let g:indent_guides_enable_on_vim_startup=1
-"let g:indent_guides_start_level=2
-"let g:indent_guides_guide_size = 1
-
-if exists('+colorcolumn')
-  set colorcolumn=80
-else
-  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-endif
-
-" allow backspacing over everything in insert mode
 set backspace=2
 set backspace=indent,eol,start
-set number
-
 set noswapfile
 
-set wildignore=*.o,*~,*.pyc,*.swp
+" Make closetags the same color than opentags on xml/html/jsx
+highlight link xmlEndTag xmlTag
 
-"color scheme"
-" colorscheme elflord
-" colorscheme delek
-" colorscheme desert
-" colorscheme PaperColor
-" colorscheme default
-" colorscheme solarized
-" colorscheme badwolf
-" colorscheme gruvbox
-colorscheme neodark
-" Set background type
-set background=dark
-" status line
-" set statusline=%(%F%m%r%h%w\ [%Y]\ %{&encoding}\ %)%=%(%l,%v\ %LL\ %p%%%)
-set laststatus=2
-set linespace=0
-" let g:airline_theme = 'badwolf'"let g:airline_theme = 'wombat'
-let g:airline_theme = 'neodark'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-
-" Keep git sign column as default (+, -, ~, etc.)
-" let g:gitgutter_override_sign_column_highlight = 0
-" let g:gitgutter_max_signs = 10000
-
-"Disable autoindentation"
-set noai
-
-" Enable filetype plugins "
-filetype plugin on
-
-" Disable preview code when using omni complete"
-set completeopt=menu
-
-" Allow modelines
-set modelines=1
-
-" set spelllang=en,pt_br
-
-" vim markdown settings
-let g:vim_markdown_folding_disabled=1
-
-" force vim to use 265 colors
-if match($XDG_CURRENT_DESKTOP, "KDE") != -1
-  set term=konsole-256color
-elseif match($XDG_CURRENT_DESKTOP, "GNOME") != -1
-  set term=gnome-256color
-elseif match($XDG_CURRENT_DESKTOP, "XFCE") != -1
-  set term=xfce
+" Add Colorcolumn highlight at 100 chars
+if exists('+colorcolumn')
+    set colorcolumn=100
 else
-  set term=xterm-256color
+    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 endif
 
-" Set column and line highlight
-" set cursorcolumn
-set cursorline
-" hi CursorLine term=bold ctermfg=Yellow gui=bold guifg=Yellow
-" hi CursorLineNr term=bold ctermfg=Yellow gui=bold guifg=Yellow
+" Colorscheme settings
+set background=dark
+" colorscheme nova
+colorscheme nord
+let g:airline_theme='nord'
 
-"-----------Mappings------------"
-map <C-n> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" NerdTree mappings
+map <C-\> :NERDTreeToggle<CR>
 
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-" s{char}{char} to move to {char}{char}
+" EasyMotion mappings
 nmap s <Plug>(easymotion-overwin-f2)
 
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+" Vim FZF mappings
+set rtp+=/usr/local/opt/fzf
+" nnoremap <C-p> :FZF<CR>
+nnoremap <C-p> :GFiles<CR>
 
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+" Ale fixers and mappings
+let g:ale_fixers = {
+            \ 'javascript': ['eslint']
+            \ }
+let g:ale_sign_column_always = 1
+" let g:airline#extensions#ale#enabled = 1
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <leader>l <Plug>(ale_fix)
+
+" Deoplete settings
+let g:deoplete#enable_at_startup = 1
+
+" Closetag settings
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.js, *.jsx'
+
+" Enable JSX inside JS filetype
+let g:jsx_ext_required = 0
+
+" NERDCommenter settings
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'start'
+
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xml' : 1,
+    \ 'js' : 1
+    \}
